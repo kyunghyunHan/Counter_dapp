@@ -3,13 +3,18 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+const wallets = [new MartianWallet()];
 root.render(
   <React.StrictMode>
-    <App />
+    <AptosWalletAdapterProvider plugins={wallets} autoConnect={true}>
+      <App />
+    </AptosWalletAdapterProvider>
   </React.StrictMode>
 );
 

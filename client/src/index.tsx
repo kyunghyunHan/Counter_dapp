@@ -9,6 +9,7 @@ import { MartianWallet } from "@martianwallet/aptos-wallet-adapter";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 const wallets = [new MartianWallet()];
 root.render(
   <React.StrictMode>

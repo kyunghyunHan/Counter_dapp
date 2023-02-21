@@ -21,40 +21,63 @@ function App() {
       const taskCounter = (todoListResource as any).data.counter;
       setNewTask(taskCounter);
     };
-
     genRandomKey();
   }, [account]);
+  const add = async () => {
+    if (!account) return;
+
+    const payload = {
+      type: "entry_function_payload",
+      function: `${moduleAddress}::counter::plus_counter`,
+      type_arguments: [],
+      arguments: [],
+    };
+    console.log(payload);
+    const response = await signAndSubmitTransaction(payload);
+    console.log(response);
+    await client.waitForTransaction(response.hash);
+    window.location.reload();
+  };
   return (
     <>
       <Layout>
         <Row align="middle">
-          <Col span={20}>
+          <Col xs={4} sm={4} md={4} lg={4} xl={4}>
             <h1>Counter Dapp</h1>
           </Col>
-          <Col span={4} style={{ textAlign: "right" }}>
+          <Col xs={20} sm={20} lg={20} xl={20} style={{ textAlign: "right" }}>
             <WalletSelector />
           </Col>
         </Row>
       </Layout>
-
       <Row style={{ textAlign: "center" }}>
-        <Col xs={0} sm={0} md={0} lg={0} xl={24}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
           <div>
             <h1>Counter</h1>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={24} xl={0}>
-          모바일
-        </Col>
       </Row>
       <Row style={{ textAlign: "center" }}>
-        <Col xs={0} sm={0} md={0} lg={0} xl={24}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
           <div>
             <h1>{newTask}</h1>
           </div>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={24} xl={0}>
-          모바일
+      </Row>
+      <Row style={{ textAlign: "center" }}>
+        <Col xs={24}>
+          <Button
+            disabled={!account}
+            block
+            onClick={add}
+            style={{
+              width: "200px",
+              height: "40px",
+              backgroundColor: "#3f67ff",
+            }}
+          >
+            Plus Counter
+          </Button>
         </Col>
       </Row>
     </>
